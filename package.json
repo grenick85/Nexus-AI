@@ -1,0 +1,1 @@
+{"name":"nexus-ai","version":"0.1.0","private":true,"type":"module","scripts":{"test":"node --test tests/*.test.mjs","start":"npx --yes serve ."},"description":"Nexus AI static browser prototype. No real model connected."}
