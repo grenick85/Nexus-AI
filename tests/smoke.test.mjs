@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
+const js=readFileSync(new URL('../app.js',import.meta.url),'utf8');
+const css=readFileSync(new URL('../style.css',import.meta.url),'utf8');
+test('page has required controls',()=>{for(const id of ['messages','chat','prompt','memory','clear','intensity','signal'])assert.match(html,new RegExp('id="'+id+'"'));});
+test('scripts and styles are linked',()=>{assert.match(html,/src="app.js"/);assert.match(html,/href="style.css"/);});
+test('memory is opt-in and erasable',()=>{assert.match(js,/if \(\$\("memory"\)\.checked\)/);assert.match(js,/localStorage\.removeItem\(STORAGE_KEY\)/);});
+test('messages use textContent, not innerHTML',()=>{assert.match(js,/el\.textContent = item\.text/);assert.doesNotMatch(js,/innerHTML/);});
+test('responsive layout is present',()=>assert.match(css,/@media/));
